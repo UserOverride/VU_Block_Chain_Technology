@@ -90,6 +90,7 @@ function generateHash(input){
 }
 
 
+//main scenario
 console.clear();
 let haveComandLineArgument = false;
 process.argv.forEach(function (val, index, array) {
@@ -105,14 +106,15 @@ process.argv.forEach(function (val, index, array) {
 });
 
 
+//testing scenario
 if (!haveComandLineArgument) {
     let fail = false;
-    for (let index = 0; index < 100; index++) {
+    for (let index = 0; index < 1000; index++) {
         const text = makeid(1000);
         console.log(`${index+1}: ${generateHash(text)}`);
         if (generateHash(text) !== generateHash(text)) {
             fail = true;
         }
     }
-    console.log(fail); 
+    fail ? console.log('ERROR: hash has been found to be repeatable.') : console.log('No hash has been found to be not repeatable.'); 
 }
