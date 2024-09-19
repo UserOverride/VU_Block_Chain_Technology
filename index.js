@@ -1,3 +1,5 @@
+const fs = require('node:fs');
+const path = require('path');
 
 //for making random test strings
 function makeid(length) {
@@ -10,6 +12,17 @@ function makeid(length) {
       counter += 1;
     }
     return result;
+}
+
+//for file processing
+function processFile(fileName){
+    try {
+        const filePath = path.join(__dirname, `${fileName}`);
+        const data = fs.readFileSync(filePath, 'utf8');
+        return {code: 0, data: data};
+    } catch (err) {
+        return {code: 1};
+    }
 }
 
 //main hashing function
@@ -76,11 +89,18 @@ function generateHash(input){
     return createFinalHash();
 }
 
+
+console.clear();
 let haveComandLineArgument = false;
 process.argv.forEach(function (val, index, array) {
     if (index > 1) {
         haveComandLineArgument = true;
-        console.log(`Hash for text ${val} is: ${generateHash(val)}`);
+        const processFileData = processFile(val);
+        if (processFileData.code === 0) {
+            console.log(`Hash for file ${val} is: ${generateHash(processFileData.data)}`); 
+        }else{
+            console.log(`Hash for text ${val} is: ${generateHash(val)}`);     
+        }
     }
 });
 
