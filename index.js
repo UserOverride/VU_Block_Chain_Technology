@@ -1,5 +1,5 @@
 
-
+//for making random test strings
 function makeid(length) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -12,6 +12,7 @@ function makeid(length) {
     return result;
 }
 
+//main hashing function
 function generateHash(input){
     let inputArr = [];
     for (let index = 0; index < input.length; index++) {
@@ -75,13 +76,23 @@ function generateHash(input){
     return createFinalHash();
 }
 
-
-let fail = false;
-for (let index = 0; index < 10000; index++) {
-    const text = makeid(1000);
-    console.log(`${index+1}: ${generateHash(text)}`);
-    if (generateHash(text) !== generateHash(text)) {
-        fail = true;
+let haveComandLineArgument = false;
+process.argv.forEach(function (val, index, array) {
+    if (index > 1) {
+        haveComandLineArgument = true;
+        console.log(`Hash for text ${val} is: ${generateHash(val)}`);
     }
+});
+
+
+if (!haveComandLineArgument) {
+    let fail = false;
+    for (let index = 0; index < 100; index++) {
+        const text = makeid(1000);
+        console.log(`${index+1}: ${generateHash(text)}`);
+        if (generateHash(text) !== generateHash(text)) {
+            fail = true;
+        }
+    }
+    console.log(fail); 
 }
-console.log(fail);
