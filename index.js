@@ -36,8 +36,6 @@ function generateHash(input){
         }
     }
 
-    console.log(outputArr)
-
     inputArr.sort((a, b) => b - a);
 
     outputArr.reverse();
@@ -55,8 +53,6 @@ function generateHash(input){
         }
     }
 
-    console.log(outputArr)
-
     let finalHash = '';
     for (let index = 0; index < outputArr.length; index++) {
         let char = 48 + (outputArr[index] % 74);
@@ -71,6 +67,6 @@ function generateHash(input){
     return finalHash;
 }
 
-for (let index = 0; index < 1; index++) {
+for (let index = 0; index < 1000; index++) {
     console.log(`${index+1}: ${generateHash(makeid(1000))}`)
 }
