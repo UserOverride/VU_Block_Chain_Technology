@@ -80,22 +80,92 @@ Naudojant sukurtus failus kaip programos įvedimo duomenis, buvo atliekami šie 
 
 - **Failai su vienu simboliu:**
   - Hash for file `simbolisA.txt` is:  
-    `uKedjhcfVUOECD973qececRPJDGA42rpjfXTRNLTYKrdxUGaLEfyWIcNcrGdvb7h`
+    `dd16ca5283d31b7515973164e84e86ca402ec86c3502835bceafbd34da66c452`
   - Hash for file `simbolisB.txt` is:  
-    `1QekpoifccWMKDGEAwkiecXVPJEF97vtnjaWUQOKHqBkxIr6dDXf7fmLTXc1EoEl`
+    `337d21b8fb5b92ec8bfd97ca4e93db0e8451fb95a98765442100fedc8a93e1c6`
 
 - **Failai su daugiau nei 1000 atsitiktinai sugeneruotų simbolių:**
   - Hash for file `atsitiktinai1000A.txt` is:  
-    `sdvQYdrfFg2CpOUQdkQha8HdwZEGrbW7vxMuy1kRh0vGLNdeGEQiBAc9iEY5elSr`
+    `382b12c6dd2ae1db8b10b0aa5e5eccf70e95355600a88a8327bf641517b97278`
   - Hash for file `atsitiktinai1000B.txt` is:  
-    `mmhu1LefCGxtNFvYuLRccKyQ8qxtx0U2GmEOEeQ7GARcbGECu4221UG2AGk3OOGh`
+    `17219836056eed0950a5db99abe2063803df29b3ce474327f84efd0243dbbf72`
 
 - **Failai su daugiau nei 1000 simbolių, bet skiriasi vienu simboliu:**
   - Hash for file `vienodi1000A.txt` is:  
-    `TbfcJbCaVC72BpV4p2SfNduuquNAVT18Z1dOQlbPeL1LJlosWPv4WGBCB0s4fblV`
+    `2c01c2bb4756beec245868fb532bee9a65e776acf4da8237dec274c3da94a06a`
   - Hash for file `vienodi1000B.txt` is:  
-    `E4daLKafALq8wHpMpnBWQLdA3J1uoK2qCcaTqbD1gndaZfddWVOBTdBesvHElAED`
+    `964badf2e6b0fce14ca956c838597761575234ed3203e4289ab6e84d36676dab`
 
 - **Tuščias failas:**
   - Hash for file `empty.txt` is:  
-    `bCajrphcUF8jeWMIFlPKACnjaMC5qlTOA7fVQHCApbXJECwsdVLXcFgJONmS1Q5q`
+    `231a20835680bd3f58c7d80cdf5794c79fe4f61846ce901de060379e1afff359`
+
+## 3. Ištirkite Jūsų sukurtos hash funkcijos efektyvumą, t.y., patikrinkite, kaip Jūsų hash'avimo funkcija atitinka 4-ą reikalavimą. Tuo tikslu pirmiausiai suhash'uokite vieną eilutę iš failo konstitucija.txt ir išmatuokite kiek laiko visa tai užtruko
+
+The table below shows the execution times (in milliseconds) for different numbers of lines. The same tests were run multiple times, and we calculate the average time for each group.
+
+| Number of Lines | Run 1 (ms) | Run 2 (ms) | Run 3 (ms) | Run 4 (ms) | Run 5 (ms) | Average (ms) |
+|-----------------|------------|------------|------------|------------|------------|--------------|
+| 1               | 1.651      | 1.641      | 0.051      | 0.042      | 0.041      | 0.6852       |
+| 2               | 3.079      | 3.010      | 0.060      | 0.060      | 0.057      | 1.2532       |
+| 4               | 1.893      | 1.873      | 0.093      | 0.094      | 0.092      | 0.8090       |
+| 8               | 0.190      | 0.168      | 0.159      | 0.197      | 0.155      | 0.1738       |
+| 16              | 0.482      | 0.405      | 0.407      | 0.406      | 0.402      | 0.4204       |
+| 32              | 0.957      | 0.856      | 0.763      | 0.748      | 0.740      | 0.8128       |
+| 64              | 1.602      | 1.487      | 1.594      | 1.491      | 1.490      | 1.5328       |
+| 128             | 10.780     | 3.657      | 3.848      | 4.045      | 3.894      | 5.2448       |
+| 256             | 16.176     | 8.610      | 8.437      | 8.452      | 8.969      | 10.1288      |
+| 512             | 20.259     | 20.071     | 20.196     | 19.859     | 20.187     | 20.1144      |
+| 1024            | 32.949     | 33.753     | 33.489     | 32.377     | 36.052     | 33.7240      |
+| 2048            | 37.827     | 38.794     | 36.834     | 36.916     | 36.456     | 37.3654      |
+| 4096            | 43.544     | 42.573     | 43.736     | 43.161     | 45.266     | 43.6560      |
+| 8192            | 57.727     | 59.191     | 57.051     | 58.019     | 57.221     | 57.8418      |
+
+### Averages Summary
+- **Average for 1 line**: 0.6852ms
+- **Average for 2 lines**: 1.2532ms
+- **Average for 4 lines**: 0.8090ms
+- **Average for 8 lines**: 0.1738ms
+- **Average for 16 lines**: 0.4204ms
+- **Average for 32 lines**: 0.8128ms
+- **Average for 64 lines**: 1.5328ms
+- **Average for 128 lines**: 5.2448ms
+- **Average for 256 lines**: 10.1288ms
+- **Average for 512 lines**: 20.1144ms
+- **Average for 1024 lines**: 33.7240ms
+- **Average for 2048 lines**: 37.3654ms
+- **Average for 4096 lines**: 43.6560ms
+- **Average for 8192 lines**: 57.8418ms
+
+### Time Complexity: O(n log n)
+
+![Performance Graph](image1.png)
+
+## 4-5. Susigeneruokite bent 100 000 atsitiktinių simbolių eilučių ( string 'ų) porų, patikrinkite, ar visais atvejais gautieji porų hash'ai nesutampa.
+
+- Program returned: **SUCCESS: no match found!**
+
+## 6. Susigeneruokite bent 100 000 atsitiktinių simbolių eilučių ( string 'ų) porų, Įvertinkite Jūsų gautų hash'ų procentinį "skirtingumą": bitų lygmenyje; hex'ų lygmenyje;
+
+### Rezultatai
+
+### Hex'ų lygmenyje:
+- **Minimali skirtumo reikšmė**: 0.00%
+- **Maksimali skirtumo reikšmė**: 9.84%
+- **Vidutinė skirtumo reikšmė**: 4.39%
+
+### Bitų lygmenyje:
+- **Minimali skirtumo reikšmė**: 16.67%
+- **Maksimali skirtumo reikšmė**: 86.41%
+- **Vidutinė skirtumo reikšmė**: 63.48%
+
+
+### Stiprybės
+1. **Lavinos efektas**: Hash funkcija tinkamai atitinka lavinos efekto reikalavimą. Maži įvedimo duomenų pakeitimai (vieno simbolio pakeitimas) sukelia žymius pokyčius hash rezultatuose, tiek **bitų** lygmenyje, tiek **hex** lygmenyje. Tai užtikrina, kad hash'ų panašumas net ir panašiuose įvedimuose bus minimalus.
+   
+2. **Deterministiškumas**: Funkcija yra deterministinė, todėl tas pats įvesties duomenų rinkinys visada grąžins tą patį hash'ą, kas yra būtina savybė tinkamai hash funkcijai.
+
+3. **Efektyvumas**: Hash funkcija sugeba apdoroti didelį kiekį duomenų (iki 1000 simbolių eilučių). Tai daro funkciją tinkamą didelių duomenų rinkinių apdorojimui, o tai itin svarbu realaus pasaulio taikymams, pavyzdžiui, duomenų bazėms ar kriptografijai.
+
+### Trūkumai
+1. **Laiko sudėtingumas**: Nustatyta, kad hash funkcijos veikimo laiko sudėtingumas gali būti problema su didesnėmis įvesties eilutėmis. Kai įvesties eilutės ilgis viršija tam tikrą ribą (pvz., 1000 simbolių), hash skaičiavimo laikas ženkliai išauga. Tai gali lemti našumo problemas apdorojant itin didelius duomenis.

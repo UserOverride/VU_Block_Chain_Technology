@@ -14,6 +14,14 @@ function sha1(input) {
     return crypto.createHash('sha1').update(input).digest('hex');
 }
 
+function hexStringToBytes(hexString) {
+    const bytes = [];
+    for (let i = 0; i < hexString.length; i += 2) {
+        bytes.push(parseInt(hexString.substr(i, 2), 16));
+    }
+    return bytes.join('');
+}
+
 function getLevenshteinDistance(str1, str2) {
     const len1 = str1.length;
     const len2 = str2.length;
@@ -77,6 +85,17 @@ function processFile(fileName){
     } catch (err) {
         return {code: 1};
     }
+}
+
+function readNumberOfLines(numberOfLines){
+    const filePath = path.join(__dirname, 'konstitucija.txt');
+    const file = fs.readFileSync(filePath, 'utf8');
+    const lines = file.split('\n');
+    let result = '';
+    for (let i = 0; i < numberOfLines; i++) {
+        result += lines[i];
+    }
+    return result;
 }
 
 //main hashing function
@@ -150,10 +169,104 @@ process.argv.forEach(function (val, index, array) {
         if (expectVal) {
             switch (val) {
                 case '1':
-                    
+                    for (let index = 1; index <= 10000; index=index*2) {
+                        const textLines = readNumberOfLines(index);
+                        console.time(`Number of lines: ${index}`);
+                        generateHash(textLines);
+                        console.timeEnd(`Number of lines: ${index}`);
+                    }
                     break;
+
+                case '2':
+                    {
+                        let fail = false;
+                        for (let index = 0; index < 100000; index++) {
+                            const ranInt = randomIntFromInterval(10, 1000);
+                            let text1 = makeid(ranInt);
+                            let text2 = makeid(ranInt);
+                            while (text1 === text2) {
+                                text1 = makeid(ranInt);
+                                text2 = makeid(ranInt);
+                            }
+                            console.log(`${index+1}: ${generateHash(text1)}  ${generateHash(text2)} Random string size: ${ranInt}`);
+                            if (generateHash(text1) === generateHash(text2)) {
+                                fail = true;
+                            }
+                        }
+                        fail ? console.log('ERROR: match found!') : console.log('SUCCESS: no match found!'); 
+                    }
+                    break;
+
+                case '3': // hex comparison
+                    {
+                        let fail = false;
+                        let min = 100;
+                        let max = 0;
+                        let averages = [];
+                        for (let index = 0; index < 100000; index++) {
+                            const ranInt = randomIntFromInterval(10, 1000);
+                            let text1 = 'a' + makeid(ranInt);
+                            let text2 = 'b' + makeid(ranInt);
+                            console.log(`${index+1}: ${generateHash(text1)}  ${generateHash(text2)} Random string size: ${ranInt}`);
+                            if (generateHash(text1) === generateHash(text2)) {
+                                fail = true;
+                            }
+                            const similarity = similarityPercentage(text1, text2);
+                            if (similarity < min) {
+                                min = similarity;
+                            }
+                            if (similarity > max) {
+                                max = similarity;
+                            }
+                            averages.push(similarity);
+                        }
+                        console.log(`Min similarity: ${min}%`);
+                        console.log(`Max similarity: ${max}%`);
+                        let sum = 0;
+                        for (let index = 0; index < averages.length; index++) {
+                            sum += Number(averages[index]);
+                        }
+                        console.log(`Average similarity: ${(sum / averages.length).toFixed(2)}%`);
+                        fail ? console.log('ERROR: match found!') : console.log('SUCCESS: no match found!'); 
+                    }
+                    break;
+
+                    case '4': // bytes comparison
+                    {
+                        let fail = false;
+                        let min = 100;
+                        let max = 0;
+                        let averages = [];
+                        for (let index = 0; index < 100000; index++) {
+                            const ranInt = randomIntFromInterval(10, 1000);
+                            let text1 = 'a' + makeid(ranInt);
+                            let text2 = 'b' + makeid(ranInt);
+                            console.log(`${index+1}: ${generateHash(text1)}  ${generateHash(text2)} Random string size: ${ranInt}`);
+                            if (generateHash(text1) === generateHash(text2)) {
+                                fail = true;
+                            }
+                            const similarity = similarityPercentage(hexStringToBytes(text1), hexStringToBytes(text2));
+                            if (similarity < min) {
+                                min = similarity;
+                            }
+                            if (similarity > max) {
+                                max = similarity;
+                            }
+                            averages.push(similarity);
+                        }
+                        console.log(`Min similarity: ${min}%`);
+                        console.log(`Max similarity: ${max}%`);
+                        let sum = 0;
+                        for (let index = 0; index < averages.length; index++) {
+                            sum += Number(averages[index]);
+                        }
+                        console.log(`Average similarity: ${(sum / averages.length).toFixed(2)}%`);
+                        fail ? console.log('ERROR: match found!') : console.log('SUCCESS: no match found!'); 
+                    }
+                    break;
+
                 default:
-                    console.log('Error: unknown test type');
+                    console.log('ERROR: unknown test type');
                     break;
             }
         }else{
@@ -171,22 +284,6 @@ process.argv.forEach(function (val, index, array) {
     }
 });
 
-
-//testing scenario
 if (!haveComandLineArgument) {
-    let fail = false;
-    for (let index = 0; index < 100000; index++) {
-        const ranInt = randomIntFromInterval(10, 1000);
-        let text1 = makeid(ranInt);
-        let text2 = makeid(ranInt);
-        while (text1 === text2) {
-            text1 = makeid(ranInt);
-            text2 = makeid(ranInt);
-        }
-        console.log(`${index+1}: ${generateHash(text1)}  ${generateHash(text2)} Random string size: ${ranInt}`);
-        if (generateHash(text1) === generateHash(text2)) {
-            fail = true;
-        }
-    }
-    fail ? console.log('ERROR: match found!') : console.log('SUCCESS: no match found!'); 
+    console.log('ERROR: no command line arguments');
 }
