@@ -40,8 +40,7 @@ This `generateHash` function takes two inputs: a string `input` and a `salt`. Th
         a. Initialize empty string finalHash.
         b. Loop through outputArr:
             i.  Convert each value to a character using modulo arithmetic.
-            ii. Ensure the value is within the ASCII range for alphanumeric characters (0-9, A-Z, a-z).
-            iii. Append the character to finalHash.
+            ii. Append the character to finalHash.
     
     12. Return finalHash as the resulting hash.
 
