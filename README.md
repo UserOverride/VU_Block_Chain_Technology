@@ -228,7 +228,7 @@ Below are the recorded average times (in ms) for each hash function:
 3. **Conclusion**:
    - Based on the collected data, while `MYHASH` might serve specific use cases, it does not match the performance of MD5, SHA-1, or SHA-256 in terms of speed.
 
-# 1. Parodykite, kad iš hash funkcijos rezultato (output'o) praktiškai neįmanoma atgaminti pradinio įvedimo (input'o) [Papildomai: iki 0.25 balo] Analysis of `generateHash` Function
+# 2. Parodykite, kad iš hash funkcijos rezultato (output'o) praktiškai neįmanoma atgaminti pradinio įvedimo (input'o) [Papildomai: iki 0.25 balo] Analysis of `generateHash` Function
 
 In the context of hash functions, two important properties are often emphasized: **pre-image resistance** (or hiding) and **puzzle friendliness**. Let's analyze how the provided `generateHash` function achieves these properties and the implications of its design.
 
