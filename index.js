@@ -1,6 +1,42 @@
 const fs = require('node:fs');
 const path = require('path');
 
+function getLevenshteinDistance(str1, str2) {
+    const len1 = str1.length;
+    const len2 = str2.length;
+    const matrix = [];
+
+    for (let i = 0; i <= len1; i++) {
+        matrix[i] = [i];
+    }
+    for (let j = 0; j <= len2; j++) {
+        matrix[0][j] = j;
+    }
+
+    for (let i = 1; i <= len1; i++) {
+        for (let j = 1; j <= len2; j++) {
+            const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
+            matrix[i][j] = Math.min(
+                matrix[i - 1][j] + 1,     
+                matrix[i][j - 1] + 1,     
+                matrix[i - 1][j - 1] + cost 
+            );
+        }
+    }
+
+    return matrix[len1][len2];
+}
+
+function similarityPercentage(str1, str2) {
+    const distance = getLevenshteinDistance(str1, str2);
+    const maxLength = Math.max(str1.length, str2.length);
+    
+    if (maxLength === 0) return 100;
+    const similarity = ((maxLength - distance) / maxLength) * 100;
+    
+    return similarity.toFixed(2);
+}
+
 //random number fuction
 function randomIntFromInterval(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
