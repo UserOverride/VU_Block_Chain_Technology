@@ -51,3 +51,51 @@ This `generateHash` function takes two inputs: a string `input` and a `salt`. Th
 - **Prime Multiplication**: These ASCII codes are then multiplied with an array of predefined prime numbers (`outputArr`), ensuring the values stay manageable by calling `smallify()` to reduce them when needed.
 - **Multiple Hash Passes**: The hash function runs twice—once with the original `inputArr` and then again after sorting `inputArr` and reversing `outputArr`.
 - **Final Hash Generation**: The resulting numbers in `outputArr` are converted into a mix of alphanumeric characters to produce the final hash string.
+
+
+# Eksperimentinis tyrimas ir rezultatų analizė
+
+## 1. Testinių įvedimo failų kūrimas
+
+Sukurkite šiuos testinius failus:
+
+- **Failai, sudaryti tik iš vieno simbolio:**
+  - `simbolisA.txt`: failas, kuriame yra tik vienas simbolis, pvz., "A".
+  - `simbolisB.txt`: failas, kuriame yra tik vienas simbolis, pvz., "B".
+
+- **Failai, sudaryti iš daugiau nei 1000 atsitiktinai sugeneruotų simbolių:**
+  - `atsitiktinai1000A.txt`: failas su daugiau nei 1000 atsitiktinai sugeneruotų simbolių.
+  - `atsitiktinai1000B.txt`: kitas failas su daugiau nei 1000 atsitiktinai sugeneruotų simbolių.
+
+- **Failai, sudaryti iš daugiau nei 1000 simbolių, bet skiriasi tik vienu simboliu:**
+  - `vienodi1000A.txt`: failas su daugiau nei 1000 simbolių.
+  - `vienodi1000B.txt`: failas, kuris nuo `vienodi1000A.txt` skiriasi tik vienu simboliu, pvz., simboliu vidurinėje pozicijoje.
+
+- **Tuščias failas:**
+  - `empty.txt`: failas, kuriame nėra jokių simbolių.
+
+## 2. Testavimas naudojant sukurtus failus
+
+Naudojant sukurtus failus kaip programos įvedimo duomenis, buvo atliekami šie tyrimai, siekiant patikrinti hash funkcijos deterministiškumą ir rezultatų dydį.
+
+- **Failai su vienu simboliu:**
+  - Hash for file `simbolisA.txt` is:  
+    `uKedjhcfVUOECD973qececRPJDGA42rpjfXTRNLTYKrdxUGaLEfyWIcNcrGdvb7h`
+  - Hash for file `simbolisB.txt` is:  
+    `1QekpoifccWMKDGEAwkiecXVPJEF97vtnjaWUQOKHqBkxIr6dDXf7fmLTXc1EoEl`
+
+- **Failai su daugiau nei 1000 atsitiktinai sugeneruotų simbolių:**
+  - Hash for file `atsitiktinai1000A.txt` is:  
+    `sdvQYdrfFg2CpOUQdkQha8HdwZEGrbW7vxMuy1kRh0vGLNdeGEQiBAc9iEY5elSr`
+  - Hash for file `atsitiktinai1000B.txt` is:  
+    `mmhu1LefCGxtNFvYuLRccKyQ8qxtx0U2GmEOEeQ7GARcbGECu4221UG2AGk3OOGh`
+
+- **Failai su daugiau nei 1000 simbolių, bet skiriasi vienu simboliu:**
+  - Hash for file `vienodi1000A.txt` is:  
+    `TbfcJbCaVC72BpV4p2SfNduuquNAVT18Z1dOQlbPeL1LJlosWPv4WGBCB0s4fblV`
+  - Hash for file `vienodi1000B.txt` is:  
+    `E4daLKafALq8wHpMpnBWQLdA3J1uoK2qCcaTqbD1gndaZfddWVOBTdBesvHElAED`
+
+- **Tuščias failas:**
+  - Hash for file `empty.txt` is:  
+    `bCajrphcUF8jeWMIFlPKACnjaMC5qlTOA7fVQHCApbXJECwsdVLXcFgJONmS1Q5q`
