@@ -26,10 +26,11 @@ function processFile(fileName){
 }
 
 //main hashing function
-function generateHash(input){
+function generateHash(input, salt){
     let inputArr = [];
-    for (let index = 0; index < input.length; index++) {
-        inputArr.push(input.charCodeAt(index))
+    let newInput = input + salt;
+    for (let index = 0; index < newInput.length; index++) {
+        inputArr.push(newInput.charCodeAt(index))
     }
     const outputArr = [
         2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 
@@ -111,8 +112,8 @@ if (!haveComandLineArgument) {
     let fail = false;
     for (let index = 0; index < 1000; index++) {
         const text = makeid(1000);
-        console.log(`${index+1}: ${generateHash(text)}`);
-        if (generateHash(text) !== generateHash(text)) {
+        console.log(`${index+1}: ${generateHash(text, 'a')}`);
+        if (generateHash(text, 'a') !== generateHash(text, 'a')) {
             fail = true;
         }
     }
