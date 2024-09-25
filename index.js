@@ -1,5 +1,18 @@
 const fs = require('node:fs');
 const path = require('path');
+const crypto = require('node:crypto');
+
+function md5(input) {
+    return crypto.createHash('md5').update(input).digest('hex');
+}
+
+function sha256(input) {
+    return crypto.createHash('sha256').update(input).digest('hex');
+}
+
+function sha1(input) {
+    return crypto.createHash('sha1').update(input).digest('hex');
+}
 
 function getLevenshteinDistance(str1, str2) {
     const len1 = str1.length;
@@ -107,14 +120,9 @@ function generateHash(input, salt){
 
     function createFinalHash(){
         let finalHash = '';
+        const allHexValues = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'];
         for (let index = 0; index < outputArr.length; index++) {
-            let char = 48 + Math.floor(outputArr[index] % 74);
-            if (char > 57 && char < 65) {
-                char += 7;
-            }else if(char > 90 && char < 97){
-                char += 6;
-            }
-            finalHash += String.fromCharCode(char); 
+            finalHash += allHexValues[Math.floor(outputArr[index] % 16)]; 
         }
 
         return finalHash;
@@ -140,7 +148,14 @@ process.argv.forEach(function (val, index, array) {
     if (index > 1) {
         haveComandLineArgument = true;
         if (expectVal) {
-            
+            switch (val) {
+                case '1':
+                    
+                    break;
+                default:
+                    console.log('Error: unknown test type');
+                    break;
+            }
         }else{
             if (val === '-t') {
                 expectVal = true;
