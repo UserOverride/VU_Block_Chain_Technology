@@ -147,7 +147,7 @@ The table below shows the execution times (in milliseconds) for different number
 
 ## 6. Susigeneruokite bent 100 000 atsitiktinių simbolių eilučių ( string 'ų) porų, Įvertinkite Jūsų gautų hash'ų procentinį "skirtingumą": bitų lygmenyje; hex'ų lygmenyje;
 
-### Rezultatai
+### Procentinis skirtingumas pagal Levenshtein:
 
 ### Hex'ų lygmenyje:
 - **Minimali skirtumo reikšmė**: 0.00%
@@ -159,6 +159,7 @@ The table below shows the execution times (in milliseconds) for different number
 - **Maksimali skirtumo reikšmė**: 86.41%
 - **Vidutinė skirtumo reikšmė**: 63.48%
 
+## 7. Kur yra Jūsų hash funkcijos stiprybės ir kokie buvo nustatyti trūkumai?
 
 ### Stiprybės
 1. **Lavinos efektas**: Hash funkcija tinkamai atitinka lavinos efekto reikalavimą. Maži įvedimo duomenų pakeitimai (vieno simbolio pakeitimas) sukelia žymius pokyčius hash rezultatuose, tiek **bitų** lygmenyje, tiek **hex** lygmenyje. Tai užtikrina, kad hash'ų panašumas net ir panašiuose įvedimuose bus minimalus.
