@@ -4,8 +4,10 @@ This `generateHash` function takes two inputs: a string `input` and a `salt`. Th
 
 ### Pseudo-Code:
 
-Function generateHash(input, salt):
+    Function generateHash(input, salt):
+
     1. Initialize empty array inputArr.
+
     2. Concatenate input with salt to create a new string newInput.
     
     3. Loop through each character in newInput:
