@@ -1,6 +1,11 @@
 const fs = require('node:fs');
 const path = require('path');
 
+//random number fuction
+function randomIntFromInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 //for making random test strings
 function makeid(length) {
     let result = '';
@@ -94,15 +99,24 @@ function generateHash(input, salt){
 //main scenario
 console.clear();
 let haveComandLineArgument = false;
+let expectVal = false;
 process.argv.forEach(function (val, index, array) {
     if (index > 1) {
         haveComandLineArgument = true;
-        const processFileData = processFile(val);
-        if (processFileData.code === 0) {
-            console.log(`Hash for file ${val} is: ${generateHash(processFileData.data)}`); 
+        if (expectVal) {
+            
         }else{
-            console.log(`Hash for text ${val} is: ${generateHash(val)}`);     
-        }
+            if (val === '-t') {
+                expectVal = true;
+            }else{
+                const processFileData = processFile(val);
+                if (processFileData.code === 0) {
+                    console.log(`Hash for file ${val} is: ${generateHash(processFileData.data)}`); 
+                }else{
+                    console.log(`Hash for text ${val} is: ${generateHash(val)}`);     
+                }
+            }
+        }   
     }
 });
 
@@ -110,12 +124,18 @@ process.argv.forEach(function (val, index, array) {
 //testing scenario
 if (!haveComandLineArgument) {
     let fail = false;
-    for (let index = 0; index < 1000; index++) {
-        const text = makeid(1000);
-        console.log(`${index+1}: ${generateHash(text, 'a')}`);
-        if (generateHash(text, 'a') !== generateHash(text, 'a')) {
+    for (let index = 0; index < 100000; index++) {
+        const ranInt = randomIntFromInterval(10, 1000);
+        let text1 = makeid(ranInt);
+        let text2 = makeid(ranInt);
+        while (text1 === text2) {
+            text1 = makeid(ranInt);
+            text2 = makeid(ranInt);
+        }
+        console.log(`${index+1}: ${generateHash(text1)}  ${generateHash(text2)} Random string size: ${ranInt}`);
+        if (generateHash(text1) === generateHash(text2)) {
             fail = true;
         }
     }
-    fail ? console.log('ERROR: hash has been found to be repeatable.') : console.log('No hash has been found to be not repeatable.'); 
+    fail ? console.log('ERROR: match found!') : console.log('SUCCESS: no match found!'); 
 }
