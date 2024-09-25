@@ -1,6 +1,18 @@
 const fs = require('node:fs');
 const path = require('path');
+const crypto = require('node:crypto');
 
+function md5(input) {
+    return crypto.createHash('md5').update(input).digest('hex');
+}
+
+function sha256(input) {
+    return crypto.createHash('sha256').update(input).digest('hex');
+}
+
+function sha1(input) {
+    return crypto.createHash('sha1').update(input).digest('hex');
+}
 
 function hexStringToBytes(hexString) {
     const bytes = [];
@@ -250,6 +262,37 @@ process.argv.forEach(function (val, index, array) {
                         }
                         console.log(`Average similarity: ${(sum / averages.length).toFixed(2)}%`);
                         fail ? console.log('ERROR: match found!') : console.log('SUCCESS: no match found!'); 
+                    }
+                    break;
+
+                case '5':
+                    {
+                        function measureTime(fn, label) {
+                            const start = performance.now(); 
+                            fn(); 
+                            const end = performance.now(); 
+                            const timeTaken = end - start; 
+                            return timeTaken;
+                        }
+
+                        let totalTimeMD5 = 0, totalTimeSHA1 = 0, totalTimeSHA256 = 0, totalTimeMYHASH = 0;
+
+                        for (let index = 1; index < 100000; index=index*2) {
+                            const randomString = makeid(index);
+                        
+                            totalTimeMD5 += measureTime(() => md5(randomString), 'MD5');
+                            totalTimeSHA1 += measureTime(() => sha1(randomString), 'SHA1');
+                            totalTimeSHA256 += measureTime(() => sha256(randomString), 'SHA256');
+                            totalTimeMYHASH += measureTime(() => generateHash(randomString), 'MYHASH');
+
+                            console.log(`${index}|${totalTimeMD5}|${totalTimeSHA1}|${totalTimeSHA256}|${totalTimeMYHASH}`);
+
+                        }
+                
+                        console.log(`Total time for MD5: ${totalTimeMD5}ms`);
+                        console.log(`Total time for SHA1: ${totalTimeSHA1}ms`);
+                        console.log(`Total time for SHA256: ${totalTimeSHA256}ms`);
+                        console.log(`Total time for MYHASH: ${totalTimeMYHASH}ms`);
                     }
                     break;
 

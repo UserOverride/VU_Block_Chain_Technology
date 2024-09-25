@@ -169,3 +169,61 @@ The table below shows the execution times (in milliseconds) for different number
 
 ### Trūkumai
 1. **Laiko sudėtingumas**: Nustatyta, kad hash funkcijos veikimo laiko sudėtingumas gali būti problema su didesnėmis įvesties eilutėmis. Kai įvesties eilutės ilgis viršija tam tikrą ribą (pvz., 1000 simbolių), hash skaičiavimo laikas ženkliai išauga. Tai gali lemti našumo problemas apdorojant itin didelius duomenis.
+
+
+# 1. Hash Function Performance Comparison [Papildomai: iki 0.25 balo]
+
+This document aims to objectively compare the performance of our custom hash function (`MYHASH`) with established hash functions: MD5, SHA-1, and SHA-256. The comparison will be based on the time taken to hash varying amounts of data, measured in milliseconds.
+
+## Methodology
+
+1. **Hashing Process**: Each hash function was executed **five times** for each data size, and the **average time** taken to compute the hash was recorded.
+2. **Measurement**: The time was measured in milliseconds for each function at different data sizes.
+3. **Performance Metrics**: The total time taken for each hashing function was calculated to summarize their performance.
+
+## Data
+
+Below are the recorded average times (in ms) for each hash function:
+
+| Data Size (Bytes) |       MD5       |      SHA-1      |     SHA-256     |      MYHASH     |
+|--------------------|----------------|-----------------|-----------------|-----------------|
+| 1                  | 0.373899937    | 0.039400101     | 0.032999992     | 0.412100077     |
+| 2                  | 0.397799969    | 0.048300266     | 0.039000034     | 0.649200201     |
+| 4                  | 0.411700010    | 0.056300163     | 0.047600031     | 0.893000364     |
+| 8                  | 0.428299904    | 0.071100235     | 0.064100027     | 1.735200167     |
+| 16                 | 0.444199800    | 0.080000162     | 0.158200026     | 2.036400318     |
+| 32                 | 0.459099770    | 0.085300207     | 0.162900209     | 2.824400187     |
+| 64                 | 0.474299908    | 0.091200113     | 0.167400122     | 3.033100128     |
+| 128                | 0.489399910    | 0.097300053     | 0.171900034     | 3.403400183     |
+| 256                | 0.501799822    | 0.103000164     | 0.176999807     | 6.198900223     |
+| 512                | 0.524199724    | 0.111600161     | 0.185400009     | 8.561800241     |
+| 1024               | 0.552199841    | 0.119300127     | 0.190599918     | 9.045100212     |
+| 2048               | 0.579699755    | 0.125600100     | 0.195400000     | 10.06990027     |
+| 4096               | 0.623199701    | 0.134700060     | 0.201800108     | 12.14400029     |
+| 8192               | 0.697599888    | 0.147000074     | 0.212100029     | 15.91860032     |
+| 16384              | 0.797399759    | 0.161200047     | 0.224799871     | 24.01510024     |
+| 32768              | 1.012699842    | 0.187200069     | 0.248099804     | 39.13340020     |
+| 65536              | 1.444599867    | 0.230499983     | 0.288100004     | 70.83600020     |
+
+![Performance Graph](image2.png)
+
+### Total Times
+
+- **Total time for MYHASH**: 220.8590982 ms
+- **Total time for MD5**: 8.830099106 ms
+- **Total time for SHA-1**: 3.792600155 ms
+- **Total time for SHA-256**: 3.689799309 ms
+
+![Performance Graph](image3.png)
+
+## Analysis
+
+1. **Speed Comparison**:
+   - **MD5**, **SHA-1**, and **SHA-256** are significantly faster than `MYHASH` across all data sizes.
+   - As the input size increases, `MYHASH` exhibits a substantial increase in hashing time compared to the standard hash functions.
+
+2. **Performance Trends**:
+   - For small data sizes, the performance gap is smaller, but as the input size increases, the time for `MYHASH` grows rapidly, suggesting that it may not be optimized for larger data sizes.
+
+3. **Conclusion**:
+   - Based on the collected data, while `MYHASH` might serve specific use cases, it does not match the performance of MD5, SHA-1, or SHA-256 in terms of speed.
