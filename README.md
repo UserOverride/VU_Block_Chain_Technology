@@ -185,7 +185,7 @@ This document aims to objectively compare the performance of our custom hash fun
 
 Below are the recorded average times (in ms) for each hash function:
 
-| Data Size (Bytes) |       MD5       |      SHA-1      |     SHA-256     |      MYHASH     |
+| Data Size (string lenght) |       MD5       |      SHA-1      |     SHA-256     |      MYHASH     |
 |--------------------|----------------|-----------------|-----------------|-----------------|
 | 1                  | 0.373899937    | 0.039400101     | 0.032999992     | 0.412100077     |
 | 2                  | 0.397799969    | 0.048300266     | 0.039000034     | 0.649200201     |
