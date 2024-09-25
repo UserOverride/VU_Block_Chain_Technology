@@ -227,3 +227,56 @@ Below are the recorded average times (in ms) for each hash function:
 
 3. **Conclusion**:
    - Based on the collected data, while `MYHASH` might serve specific use cases, it does not match the performance of MD5, SHA-1, or SHA-256 in terms of speed.
+
+# 1. Parodykite, kad iš hash funkcijos rezultato (output'o) praktiškai neįmanoma atgaminti pradinio įvedimo (input'o) [Papildomai: iki 0.25 balo] Analysis of `generateHash` Function
+
+In the context of hash functions, two important properties are often emphasized: **pre-image resistance** (or hiding) and **puzzle friendliness**. Let's analyze how the provided `generateHash` function achieves these properties and the implications of its design.
+
+## 1. Hiding (Pre-image Resistance)
+
+**Definition:** Pre-image resistance means that given a hash output, it should be computationally infeasible to find any input that hashes to that output. This property ensures that the output (hash) does not reveal any useful information about the original input.
+
+### Implementation in `generateHash`
+
+- **Combining Input and Salt**: The function concatenates the `input` and `salt` into a new string (`newInput`). This combination makes it significantly harder to guess the original input, especially if the salt is random and unique for each hash. The salt essentially adds an additional layer of security:
+    ```javascript
+    let newInput = input + salt;
+    ```
+
+- **Transformation to Character Codes**: The input string is transformed into an array of character codes (`inputArr`). This transformation obfuscates the original input by converting it to numeric values:
+    ```javascript
+    for (let index = 0; index < newInput.length; index++) {
+        inputArr.push(newInput.charCodeAt(index));
+    }
+    ```
+
+- **Complex Operations**: The `doHash` function performs multiple operations involving multiplication and the `smallify` function, which repeatedly divides values in `outputArr` by 100 until they are below 10,000. This series of transformations makes the relationship between the input and the output much more complex, making reverse engineering (i.e., deducing the original input from the hash) highly impractical.
+
+## 2. Puzzle Friendliness
+
+**Definition:** Puzzle friendliness is the property that makes it difficult for an attacker to find two different inputs that produce the same hash (collisions). This is closely related to the concept of collision resistance.
+
+### Implementation in `generateHash`
+
+- **Fixed Output Size**: The `outputArr` is initialized with a fixed set of prime numbers. This ensures that the hash output has a constant size regardless of the input size. The limited size of `outputArr` (64 elements) constrains the possible hash outputs, but the complexity introduced in calculations minimizes the chances of collisions.
+  
+- **Dynamic Indexing**: The `doHash` function uses a dynamic indexing approach (`curentIndex`) that resets under certain conditions. This non-linear traversal and mutation of `outputArr` add further complexity to the way hash values are generated, making it difficult to find two distinct inputs that yield the same output:
+    ```javascript
+    if (curentIndex !== outputArr.length - 1) {
+        ...
+    } else {
+        curentIndex = 0;
+        index--;
+    }
+    ```
+
+## 3. Overall Complexity and Security Implications
+
+The combination of these operations results in a hash function that possesses **hiding** and **puzzle friendliness**. Even if an attacker has access to the hash output:
+
+- **Difficulty in Reverse Engineering**: The operations performed on the input make it challenging to deduce the original input.
+- **Collision Resistance**: The intricate and non-linear processing ensures that finding two different inputs that yield the same hash output is computationally intensive.
+
+## Conclusion
+
+While no hash function can be absolutely secure, the design of the `generateHash` function significantly enhances the difficulty of reversing the hash to find the original input and reduces the likelihood of collisions. The strategic use of salt, transformation of input data, and complex arithmetic operations contribute to its effectiveness in achieving the properties of hiding and puzzle friendliness. 
